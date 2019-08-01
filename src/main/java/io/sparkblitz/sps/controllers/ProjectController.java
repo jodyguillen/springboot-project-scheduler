@@ -1,12 +1,11 @@
 package io.sparkblitz.sps.controllers;
 
 import io.sparkblitz.sps.models.Project;
+import io.sparkblitz.sps.scheduling.GanttChart;
 import io.sparkblitz.sps.services.ProjectService;
+import io.sparkblitz.sps.services.SchedulingService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -16,6 +15,9 @@ public class ProjectController {
     @Autowired
     private ProjectService projectService;
 
+    @Autowired
+    private SchedulingService schedulingService;
+
     @RequestMapping(value="/projects", method= RequestMethod.POST)
     public Project addProject(@RequestBody Project project) {
         return projectService.save(project);
@@ -24,5 +26,11 @@ public class ProjectController {
     @RequestMapping(value="/projects", method=RequestMethod.GET)
     public List<Project> getAllProjects() {
         return projectService.findAll();
+    }
+
+    @RequestMapping(value="/projects/{id}/scheduling", method = RequestMethod.GET, produces = "application/json")
+    @ResponseBody
+    public GanttChart getCalendar(@PathVariable("id") Integer projectId) {
+        return schedulingService.chartByProjectId(projectId);
     }
 }
