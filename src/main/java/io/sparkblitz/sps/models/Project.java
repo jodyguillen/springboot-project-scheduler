@@ -1,5 +1,7 @@
 package io.sparkblitz.sps.models;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -12,6 +14,8 @@ public class Project {
     @GeneratedValue
     private Integer id;
     private String name;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date startDate;
 
     public Project() {
