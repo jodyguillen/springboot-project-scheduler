@@ -5,6 +5,7 @@ import io.sparkblitz.sps.scheduling.GanttChart;
 import io.sparkblitz.sps.services.ProjectService;
 import io.sparkblitz.sps.services.SchedulingService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,6 +32,6 @@ public class ProjectController {
     @RequestMapping(value="/projects/{id}/scheduling", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
     public GanttChart getCalendar(@PathVariable("id") Integer projectId) {
-        return schedulingService.chartByProjectId(projectId);
+        return schedulingService.chartProjectById(projectId);
     }
 }

@@ -3,6 +3,7 @@ package io.sparkblitz.sps.models;
 import javax.persistence.*;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 
 @Entity
 public class Activity implements Comparable<Activity> {
@@ -22,9 +23,6 @@ public class Activity implements Comparable<Activity> {
     @ManyToOne
     @JoinColumn
     private Project project;
-
-    //@OneToMany(mappedBy = "rootTask", fetch = FetchType.LAZY)
-    //private Set<ActivityDependency> successors;
 
     public Activity() {
     }

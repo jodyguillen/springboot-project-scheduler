@@ -1,36 +1,37 @@
 package io.sparkblitz.sps.scheduling;
 
-import io.sparkblitz.sps.models.Activity;
-import io.sparkblitz.sps.models.Project;
+import io.sparkblitz.sps.dto.ActivityDTO;
+import io.sparkblitz.sps.dto.ProjectDTO;
 
 import java.util.Set;
 import java.util.TreeSet;
 
 public class PipeLine {
 
-    private final Project project;
-   private Set<Schedule.Entry> entries;
+    private final ProjectDTO project;
+   private Set<ActivityDTO> activities;
 
-    public PipeLine(Project project){
+    public PipeLine(ProjectDTO project){
         this.project = project;
-        this.entries = new TreeSet<>();
+        this.activities = new TreeSet<>();
     }
 
-    public Project getProject() {
+    public ProjectDTO getProject() {
         return project;
     }
 
-    public Set<Schedule.Entry> getEntries() {
-        return entries;
+    public Set<ActivityDTO> getActivities() {
+        return activities;
     }
 
-    public void put(int start, Activity activity) {
-        Schedule.Entry todo = getOrCreate(activity);
+    public void put(int start, ActivityDTO activity) {
+        this.activities.add(activity);
+        ActivityDTO todo = this.activities.stream().filter(a -> a.equals(activity)).findFirst().orElse(null);
         todo.setStart(start);
-        this.entries.add(todo);
     }
 
-    private Schedule.Entry getOrCreate(Activity activity) {
-        return this.entries.stream().filter(t -> t.getId().equals(activity.getId())).findFirst().orElse(Schedule.createEntry(activity));
+    private ActivityDTO getActivity(ActivityDTO activity) {
+        this.activities.add(activity);
+        return this.activities.stream().filter(a -> a.equals(activity)).findFirst().orElse(null);
     }
 }

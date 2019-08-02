@@ -1,44 +1,43 @@
 package io.sparkblitz.sps.scheduling;
 
-import io.sparkblitz.sps.models.Activity;
+import io.sparkblitz.sps.dto.ActivityDTO;
+import io.sparkblitz.sps.dto.ProjectDTO;
 
-import java.util.Date;
-import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
 public class GanttChart {
-    private Date startDate;
-    private final Set<Schedule> schedules;
+    private ProjectDTO project;
+    private final Set<Schedule> schedules = new TreeSet<>();
 
     public GanttChart() {
-        this(null);
+    }
+    public GanttChart(ProjectDTO project) {
+        this.project = project;
     }
 
-    public GanttChart(Date startDate) {
-        this.startDate = startDate;
-        this.schedules = new TreeSet<>();
-    }
-
-    public Date getStartDate() {
-        return startDate;
+    public ProjectDTO getProject() {
+        return this.project;
     }
 
     public void plot(PipeLine pipeLine) {
-        this.startDate = pipeLine.getProject().getStartDate();
-        for (Schedule.Entry scheduleEntry : pipeLine.getEntries()) {
+        this.project = pipeLine.getProject();
+        for (ActivityDTO scheduleEntry : pipeLine.getActivities()) {
             int start = scheduleEntry.getStart();
-            int finish = scheduleEntry.getEnd();
+            int finish = scheduleEntry.getFinish();
 
             for (int timeSlot = start; timeSlot <= finish; timeSlot++) {
-                addSchedule(timeSlot, scheduleEntry);
+                plot(timeSlot, scheduleEntry);
             }
         }
     }
 
-    public void addSchedule(int sequence, Schedule.Entry entry) {
-        Schedule schedule = schedules.stream().filter(s ->s.getSequence() == sequence).findFirst().orElse(new Schedule(startDate, sequence));
-        schedule.addTask(entry);
+    public void plot(int sequence, ActivityDTO activity) {
+        Schedule schedule = schedules.stream()
+                .filter(s -> s.getSequence() == sequence)
+                .findFirst()
+                .orElse(new Schedule(project.getStartDate(), sequence));
+        schedule.addActivity(activity);
         schedules.add(schedule);
     }
 

@@ -1,0 +1,26 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Schedules</title>
+</head>
+<body>
+<h1>Schedules</h1>
+<h3 th:text="'Project: ' + ${chart.project.name}"></h3>
+    <table>
+        <tr>
+            <td>#</td>
+            <td>Date</td>
+            <td>Activities</td>
+        </tr>
+        <tr th:each="schedule : ${chart.schedules}">
+            <td th:text="${schedule.sequence}"></td>
+            <td th:text="${schedule.date}"></td>
+            <td>
+                <table th:each="activity : ${schedule.activities}">
+                    <tr th:text="${activity.name}"></tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

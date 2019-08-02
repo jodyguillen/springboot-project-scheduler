@@ -1,0 +1,26 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Activities</title>
+</head>
+<body>
+<h1>Activities</h1>
+<h3 th:text="'Project: ' + ${project.name}"></h3>
+    <table>
+        <tr>
+            <td>Activity</td>
+            <td>Duration</td>
+            <td>Next</td>
+        </tr>
+        <tr th:each="activity : ${project.activities}">
+            <td th:text="${activity.name}"></td>
+            <td th:text="${activity.duration}"></td>
+            <td>
+                <table th:each="next : ${activity.next}">
+                    <tr th:text="${next.name}"></tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
