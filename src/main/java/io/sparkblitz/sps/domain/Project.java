@@ -1,9 +1,12 @@
 package io.sparkblitz.sps.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -15,6 +18,9 @@ public class Project {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+
+    @JsonFormat(pattern="yyyyMMdd")
+    private Date startDate;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Activity> activities = new LinkedHashSet<>();
@@ -36,6 +42,14 @@ public class Project {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
     }
 
     public Set<Activity> getActivities() {

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div>
+    <h2> Project <span th:text="${calendar.project.name}"></span> </h2>
+    <table>
+        <thead>
+            <tr>
+                <td>#</td>
+                <td>Date</td>
+                <td>Activities</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="schedule : ${calendar.schedules}">
+                <td th:text="${schedule.ordinal}"></td>
+                <td th:text="${#dates.format(schedule.date, 'MM-dd-yyyy')}"></td>
+                <td>
+                    <ul th:each="activity : ${schedule.activities}">
+                        <li th:text="${activity.code + '(duration=' + activity.duration + ')'}"></li>
+                    </ul>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
