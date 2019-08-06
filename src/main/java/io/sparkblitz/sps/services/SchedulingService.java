@@ -18,9 +18,9 @@ public class SchedulingService {
     @Autowired
     private ActivityService activityService;
 
-    public Calendar plotCalendar(Long projectId, Date startDate) {
+    public Calendar plotCalendar(Long projectId, Date startDate, String unit) {
         Project project = projectService.getById(projectId);
-        Calendar calendar = new Calendar(project, startDate);
+        Calendar calendar = new Calendar(project, startDate, unit);
         calendar.schedule((activityCode) -> activityService.listNext(activityCode));
         return calendar;
     }

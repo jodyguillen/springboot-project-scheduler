@@ -1,15 +1,13 @@
 package io.sparkblitz.sps.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.sparkblitz.sps.scheduling.TimeUnit;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.LinkedHashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 public class Project {
@@ -18,6 +16,7 @@ public class Project {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    private String timeUnit = TimeUnit.DAY.getName();
 
     @JsonFormat(pattern="yyyyMMdd")
     private Date startDate;
@@ -42,6 +41,17 @@ public class Project {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getTimeUnit() {
+        return timeUnit;
+    }
+
+    public void setTimeUnit(String timeUnit) {
+        this.timeUnit = Optional.ofNullable(timeUnit)
+        .map(unit -> TimeUnit.from(unit))
+        .map(unit -> unit.getName())
+        .orElse(TimeUnit.DAY.getName());
     }
 
     public Date getStartDate() {
