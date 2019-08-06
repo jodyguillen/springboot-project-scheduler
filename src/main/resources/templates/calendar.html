@@ -79,7 +79,7 @@
                 <table class="table table-striped table-hover">
                     <thead>
                         <tr>
-                            <td>#</td>
+                            <td th:text="${calendar.timeUnit.name} + ' #'"></td>
                             <td>Date</td>
                             <td>Activities</td>
                         </tr>
@@ -90,7 +90,7 @@
                             <td th:text="${#dates.format(schedule.date, 'MM-dd-yyyy')}"></td>
                             <td>
                                 <ul th:each="activity : ${schedule.activities}" class="nav nav-pills">
-                                    <li th:text="${activity.code + '(duration=' + activity.duration + ')'}"></li>
+                                    <li th:text="${'[ ' + activity.code + ' -- '+ activity.duration + ' ' + calendar.timeUnit.name + 's ]'}"></li>
                                 </ul>
                             </td>
                         </tr>

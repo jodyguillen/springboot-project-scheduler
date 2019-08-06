@@ -21,8 +21,9 @@ public class ScheduleController {
     private SchedulingService schedulingService;
 
     @RequestMapping(value="/projects/{projectId}", method = RequestMethod.POST)
-    public String schedule(@PathVariable("projectId") Long projectId, @RequestParam(name = "start", required = false) @DateTimeFormat(pattern="yyyyMMdd") Date startDate, Model model) {
-        Calendar calendar = schedulingService.plotCalendar(projectId, startDate);
+    public String schedule(@PathVariable("projectId") Long projectId, @RequestParam(name = "start", required = false) @DateTimeFormat(pattern="yyyyMMdd") Date startDate,
+                           @RequestParam(name = "unit", required = false) String unit, Model model) {
+        Calendar calendar = schedulingService.plotCalendar(projectId, startDate, unit);
         model.addAttribute("calendar", calendar);
         return "calendar";
     }

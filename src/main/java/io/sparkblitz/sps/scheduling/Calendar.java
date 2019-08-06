@@ -3,7 +3,10 @@ package io.sparkblitz.sps.scheduling;
 import io.sparkblitz.sps.domain.Activity;
 import io.sparkblitz.sps.domain.Project;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.util.StringUtils;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.function.Function;
@@ -11,11 +14,20 @@ import java.util.function.Function;
 public class Calendar {
     private final Project project;
     private final Date startDate;
+    private final TimeUnit timeUnit;
     private final Set<Schedule> schedules = new TreeSet<>();
 
-    public Calendar(Project project, Date startDate) {
+    public Calendar(Project project, Date startDate, String timeUnitName) {
         this.project = project;
         this.startDate = startDate == null ? project.getStartDate() : startDate;
+        TimeUnit candidateUnit = Optional.ofNullable(timeUnitName)
+                .map(name -> TimeUnit.from(timeUnitName.toUpperCase()))
+                .orElse(project.getTimeUnit() == null ? TimeUnit.DAY : TimeUnit.from(project.getTimeUnit().toUpperCase()));
+        this.timeUnit = candidateUnit == null ? TimeUnit.DAY : candidateUnit; // Default unit = DAY
+    }
+
+    public Calendar(Project project, Date startDate) {
+        this(project, startDate, project.getTimeUnit());
     }
 
     public void schedule(Function<String, List<Activity>> dependencyFetcher) {
@@ -49,8 +61,12 @@ public class Calendar {
         return schedules;
     }
 
+    public TimeUnit getTimeUnit() {
+        return timeUnit;
+    }
+
     private void plot(int ordinal, Activity activity) {
-        Schedule schedule = schedules.stream().filter(s -> s.getOrdinal() == ordinal).findFirst().orElse(new Schedule(ordinal, this.startDate));
+        Schedule schedule = schedules.stream().filter(s -> s.getOrdinal() == ordinal).findFirst().orElse(new Schedule(ordinal, this.startDate, this.timeUnit));
         schedule.put(activity);
         this.schedules.add(schedule);
     }
@@ -79,9 +95,12 @@ public class Calendar {
         private final Date date;
         private final Set<Activity> activities = new LinkedHashSet<>();
 
-        private Schedule(int ordinal, Date calendarStartDate) {
+        private Schedule(int ordinal, Date calendarStartDate, TimeUnit timeUnit) {
             this.ordinal = ordinal;
-            this.date = Date.from(calendarStartDate.toInstant().plus(ordinal -1, ChronoUnit.DAYS));
+            java.util.Calendar calendar = java.util.Calendar.getInstance();
+            calendar.setTime(calendarStartDate);
+            calendar.add(timeUnit.getCalendarUnit(), ordinal -1);
+            this.date = calendar.getTime();
         }
 
         private void put(Activity activity) {

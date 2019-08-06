@@ -86,7 +86,7 @@
                 <tbody>
                         <tr th:each="activity : ${project.activities}">
                             <td th:text="${activity.code}"></td>
-                            <td th:text="${activity.duration}"></td>
+                            <td th:text="${activity.duration + ' ' +  project.timeUnit + 's'}"></td>
                             <td>
                                 <ul th:each="next : ${activity.next}" class="nav nav-pills">
                                     <li th:text="${next}"></li>
