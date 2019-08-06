@@ -1,0 +1,12 @@
+{
+  "name": "Martian",
+  "startDate": "20190925",
+  "timeUnit" : "month",
+  "activities" : [
+    { "code" :  "A", "duration":  5, "next" : ["C", "D"]},
+    { "code" :  "B", "duration":  6},
+    { "code" :  "C", "duration":  3, "next" : ["D", "E"]},
+    { "code" :  "D", "duration":  2, "next" : ["E", "G"]},
+    { "code" :  "E", "duration":  3}
+  ]
+}

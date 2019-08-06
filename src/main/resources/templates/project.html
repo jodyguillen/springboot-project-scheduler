@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div>
+    <h2> Project <span th:text="${project.name}"></span> </h2>
+    <table>
+        <thead>
+            <tr>
+                <td>Activity</td>
+                <td>Duration</td>
+                <td>Next Activity</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="activity : ${project.activities}">
+                <td th:text="${activity.code}"></td>
+                <td th:text="${activity.duration}"></td>
+                <td>
+                    <ul th:each="next : ${activity.next}">
+                        <li th:text="${next}"></li>
+                    </ul>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
