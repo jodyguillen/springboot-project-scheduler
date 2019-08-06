@@ -28,13 +28,13 @@ This project is created as a proof of concept of the use of the technologies inv
 ### Scope
 - Input project by uploading a JSON file
 - Dynamic schedule calculation based on supported time units: day, week, month, year
-
+- Automatically ignores non-existent successor activities
 
 ### Limitations
 - Whole number duration values
 - Happy path only! No cyclic dependencies support. Minimal error handling.
 - For simplicity, the user interfacing is minimal where it only includes views for upload, activities, and calendar.
-- Start date and time unit are hardwired to project due to limitation in defined views but the backend side has capability to dynamically create a calendar on-the-fly given of these parameters. By design, the calendar is loosely coupled from project.
+- Start date and time unit are hardwired to project due to limitation in defined views but the backend side has capability to dynamically create a calendar on-the-fly given of these parameters. By design, the calendar is loosely coupled from start date and time unit.
 
 
 ## Getting Started
@@ -92,6 +92,7 @@ D
 	- duration = 2
 	- depends on A and C
 	- followed by E and G	
+	- G is a non-existent activity, so it will be ignored
 
 E
 	- duration = 3
@@ -109,7 +110,7 @@ After a successful upload, the activities page opens where it shows the name of 
 
 Upon a successful schedule calculation, the calendar page opens where it shows the project name and the activities per date. The date increments change depending on the time unit used.
 
-Retest by going back to the home page by clicking the "Home" button or manually navigating to 127.0.0.1:<port>.
+Retest by going back to the home page by clicking the "Home" button or manually navigating to 127.0.0.1:[port].
 
 
 ## Author
