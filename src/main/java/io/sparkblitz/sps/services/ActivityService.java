@@ -33,6 +33,14 @@ public class ActivityService extends DataService<Activity, Integer, TaskReposito
         return save(activity);
     }
 
+    public List<Activity> findByProject(Project project) {
+        if(null == project) {
+            System.out.println("Project is null. Skip.");
+            return new ArrayList<>();
+        }
+        return getMyRepository().findByProjectId(project.getId());
+    }
+
     public List<Activity> findByProjectId(Integer projectId) {
         return getMyRepository().findByProjectId(projectId);
     }

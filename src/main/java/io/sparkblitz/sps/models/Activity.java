@@ -1,6 +1,7 @@
 package io.sparkblitz.sps.models;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -23,6 +24,9 @@ public class Activity implements Comparable<Activity> {
     @ManyToOne
     @JoinColumn
     private Project project;
+
+    @Transient
+    private List<Activity> next;
 
     public Activity() {
     }
@@ -106,5 +110,13 @@ public class Activity implements Comparable<Activity> {
 
     public String toString() {
         return String.format("%s[ %d ]",getName(), getDuration() );
+    }
+
+    public List<Activity> getNext() {
+        return next;
+    }
+
+    public void setNext(List<Activity> next) {
+        this.next = next;
     }
 }

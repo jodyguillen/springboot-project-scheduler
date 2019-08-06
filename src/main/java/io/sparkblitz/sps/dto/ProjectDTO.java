@@ -80,4 +80,10 @@ public class ProjectDTO implements Comparable<ProjectDTO> {
         return null;
     }
 
+    public Project toModel() {
+        Project project = new Project();
+        project.setName(this.getName());
+        project.setStartDate(this.getStartDate());
+        return project;
+    }
 }

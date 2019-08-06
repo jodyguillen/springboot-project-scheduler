@@ -105,4 +105,11 @@ public class ActivityDTO implements Comparable<ActivityDTO> {
     private int computeFinish(){
         return this.start + this.duration - 1;
     }
+
+    public Activity toModel(){
+        Activity activity = new Activity();
+        activity.setDuration(this.getDuration());
+        activity.setName(this.getName());
+        return activity;
+    }
 }

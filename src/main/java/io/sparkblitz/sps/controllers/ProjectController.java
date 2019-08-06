@@ -20,9 +20,9 @@ public class ProjectController {
     @Autowired
     private SchedulingService schedulingService;
 
-    @RequestMapping(value="/projects/open", method= RequestMethod.GET)
-    public String openForm(Project project) {
-        return "create-project";
+    @RequestMapping(value="/projects", method= RequestMethod.GET)
+    public String openCreateProjectForm(Project project) {
+        return "list-activities";
     }
 
     @RequestMapping(value="/projects", method= RequestMethod.POST)
@@ -32,7 +32,7 @@ public class ProjectController {
         return "redirect:/projects";
     }
 
-    @RequestMapping(value="/projects", method=RequestMethod.GET)
+    @RequestMapping(value="/projects/list", method=RequestMethod.GET)
     @ResponseBody
     public List<Project> getAllProjects() {
         return projectService.findAll();

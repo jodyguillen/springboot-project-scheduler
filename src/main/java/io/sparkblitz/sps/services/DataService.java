@@ -21,10 +21,16 @@ public abstract class DataService<T, ID, R extends CrudRepository<T, ID>> {
     }
 
     public Optional<T> findById(ID id) {
+        if(null == id) {
+            return Optional.empty();
+        }
         return repository.findById(id);
     }
 
     public void deleteById(ID id) {
+        if(null == id) {
+            return;
+        }
         repository.deleteById(id);
     }
 
